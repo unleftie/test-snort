@@ -1,0 +1,5 @@
+alert udp !$DNS_SERVERS 53 -> $HOME_NET any (msg:"DNS REPLY FROM UNKNOWN DNS SERVER"; flow:to_server; classtype:policy-violation; sid:101100000; rev:001;)
+
+alert udp $DNS_SERVERS 53 -> $HOME_NET any (msg:"DNS REPLY FOR BLOCKED SERVER [match by IP]"; flow:to_server; content:"|68 C6 0E 34|"; fast_pattern:only; metadata:service dns; classtype:policy-violation; sid:101100003; rev:001;)
+
+alert udp $DNS_SERVERS 53 -> $HOME_NET any (msg:"DNS REPLY FOR BLOCKED SERVER [match by NAME]"; flow:to_server; content:"malicious|04|site"; fast_pattern:only; classtype:policy-violation; sid:101100004; rev:001;)

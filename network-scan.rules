@@ -1,0 +1,20 @@
+alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg: "TCP SCAN"; flow:stateless,to_server; detection_filter: track by_src, count 1000, seconds 5; sid:101000001; classtype:network-scan; rev:001;)
+
+alert udp $EXTERNAL_NET any -> $HOME_NET any (msg: "UDP SCAN"; flow:stateless,to_server; detection_filter: track by_src, count 100, seconds 5; sid: 101000002; classtype:network-scan; rev:001;)
+
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET $SSH_PORTS (msg: "TCP-SYN TO SSH PORT"; flow:stateless,to_server; flags:S; classtype:network-scan; sid:101000003; rev:001;)
+
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET 139 (msg:"TCP-SYN TO NETBIOS PORT"; flow:to_server; flags:S; sid:101000004; classtype:network-scan; rev:001;)
+
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET $SMTP_PORTS (msg:"TCP-SYN TO SMTP PORT"; flow:to_server; flags:S; sid:101000005; classtype:network-scan; rev:001;)
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET 110 (msg:"TCP-SYN TO POP3 PORT"; flow:to_server; flags:S; sid:101000006; classtype:network-scan; rev:001;)
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET 143 (msg:"TCP-SYN TO IMAP PORT"; flow:to_server; flags:S; sid:101000007; classtype:network-scan; rev:001;)
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET $FTP_PORTS (msg:"TCP-SYN TO FTP PORTS"; flow:to_server; flags:S; sid:101000008; classtype:network-scan; rev:001;)
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET $SIP_PORTS (msg:"TCP-SYN TO SIP PORTS"; flow:to_server; flags:S; sid:101000009; classtype:network-scan; rev:001;)

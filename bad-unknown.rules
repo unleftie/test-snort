@@ -1,0 +1,1 @@
+alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg:"LARGE ICMP PACKET"; flow:to_server; dsize:>800; classtype:bad-unknown; sid:100000001; rev:001;)

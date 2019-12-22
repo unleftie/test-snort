@@ -1,0 +1,7 @@
+alert tcp $EXTERNAL_NET any -> $HOME_NET $SSH_PORTS (msg:"SSH AUTH BRUTE FORCE ATTEMPT"; flow:to_server; detection_filter:track by_dst, count 10, seconds 60; classtype:suspicious-login; sid:100000010; rev:001;)
+
+alert tcp $EXTERNAL_NET any -> $HOME_NET $SMTP_PORTS (msg:"SMTP AUTH BRUTE FORCE ATTEMPT"; flow:to_server; detection_filter:track by_dst, count 10, seconds 10; classtype:suspicious-login; sid:100000020; rev:001;)
+
+alert tcp $HOME_NET $HTTP_PORTS -> $EXTERNAL_NET any (msg:"DIRECTORY BRUTE FORCE ATTEMPT [HTTP 403 Forbidden]"; flow:from_server,established; content:"HTTP/1.1 403"; depth:12; fast_pattern; classtype:suspicious-login; sid:100000030; rev:001;)
+
+alert tcp $HOME_NET $HTTP_PORTS -> $EXTERNAL_NET any (msg:"DIRECTORY BRUTE FORCE ATTEMPT [HTTP 405 Method Not Allowed]"; flow:from_server,established; content:"HTTP/1.1 405"; depth:12; fast_pattern; classtype:suspicious-login; sid:100000040; rev:001;)
